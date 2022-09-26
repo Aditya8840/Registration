@@ -77,15 +77,37 @@ app.post("/send", (req, res)=>{
           pass: 'gavcubcpbpvhdpmn'
         }
       });
-      
+      const output1 = `
+      <div style="background: black; margin: 5% ; width: 100%; height: 100%; border-radius: 10px; text-align: center ; padding: 10px;" >
+      <img src="https://cliparting.com/wp-content/uploads/2018/03/thank-you-pictures-2018-1.jpg" alt="Thanks_You_Image" width="100%">
+      <h1>Codiyapa Team will contact you soon</h1>
+    </div>
+      `;
       var mailOptions = {
         from: '"CoDiYaPa" codiyapasuppoort@gmail.com',
         to: 'vivektripathi8005@gmail.com, akasaudhan02@gmail.com, mailtonihalsingh29@gmail.com, narayanaditya1728@gmail.com',
         subject: 'Codiyapa Attention Here! New Customer arrived',
         html: output
       };
+
+      var mailOptions1 = {
+        from: '"CoDiYaPa" codiyapasuppoort@gmail.com',
+        to: req.body.email,
+        subject: 'Thanks You for Contacting Us',
+        html: output1
+      };
       
       transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+        }
+        console.log('Message sent: %s', info.messageId);   
+        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+        res.render('register', {success: 'Success'});
+        res.redirect("/");
+      });
+
+      transporter.sendMail(mailOptions1, (error, info) => {
         if (error) {
           console.log(error);
         }
